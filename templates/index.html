@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice-over Error Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="console">
+
+  <header class="console__header">
+    <div class="brand">
+      <span class="brand__mark">◈</span>
+      <div>
+        <h1>Voice-over Error Console</h1>
+        <p class="brand__sub">Check a dubbed track against its source script</p>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+  </header>
+
+  <main class="deck">
+
+    <section class="panel panel--intake" id="intake-panel">
+      <h2 class="panel__title"><span class="panel__index">01</span> Upload material</h2>
+
+      <form id="job-form" class="intake-form">
+        <div class="dropzone" id="audio-drop">
+          <input type="file" id="audio-input" name="audio" accept=".wav,.mp3,.m4a,.ogg,.flac" hidden>
+          <div class="dropzone__icon">♪</div>
+          <div class="dropzone__label">
+            <strong>Dubbed audio track</strong>
+            <span id="audio-filename">wav · mp3 · m4a · ogg · flac</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="original-text">Source script (original text)</label>
+          <textarea id="original-text" name="original_text" rows="6" placeholder="Paste the original text the dub should match…"></textarea>
+        </div>
+
+        <div class="field field--inline">
+          <label for="language">Dub language (optional)</label>
+          <input type="text" id="language" name="language" placeholder="en, ru, es…">
+        </div>
+
+        <button type="submit" class="btn btn--primary" id="submit-btn">Run analysis</button>
+        <p class="form-error" id="form-error"></p>
+      </form>
+    </section>
+
+    <section class="panel panel--status" id="status-panel" hidden>
+      <h2 class="panel__title"><span class="panel__index">02</span> Processing</h2>
+      <div class="status-row">
+        <div class="pulse" id="pulse"></div>
+        <span id="status-label">Queued…</span>
+      </div>
+      <div class="waveline" id="waveline" aria-hidden="true">
+        <div class="waveline__bar" id="waveline-bar"></div>
+      </div>
+    </section>
+
+    <section class="panel panel--results" id="results-panel" hidden>
+      <h2 class="panel__title"><span class="panel__index">03</span> Results</h2>
+
+      <div class="summary" id="summary"></div>
+
+      <div class="timeline" id="timeline"></div>
+
+      <ul class="error-list" id="error-list"></ul>
+    </section>
+
+  </main>
+
+  <footer class="console__footer">
+    <span>Asynchronous processing · Celery + Redis</span>
+  </footer>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
